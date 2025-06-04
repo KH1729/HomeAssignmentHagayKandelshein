@@ -14,7 +14,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Configure HttpClient and register CurrencyLayerService
+// Configure HttpClient
 builder.Services.AddHttpClient();
 
 // Register background service
@@ -45,13 +45,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
 app.UseCors();
 app.UseAuthorization();
 app.MapControllers();
-
-// Set default page
-app.MapFallbackToFile("index.html");
 
 // Ensure database is created
 using (var scope = app.Services.CreateScope())
