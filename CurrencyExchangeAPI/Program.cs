@@ -17,7 +17,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // Configure HttpClient
 builder.Services.AddHttpClient();
 
-// Register background service
+// Register services
+builder.Services.AddScoped<ExchangeRateService>();
 builder.Services.AddHostedService<ExchangeRateBackgroundService>();
 
 // Add CORS
@@ -30,10 +31,6 @@ builder.Services.AddCors(options =>
                .AllowAnyHeader();
     });
 });
-
-// Add services
-builder.Services.AddScoped<RateFetcherService>();
-builder.Services.AddScoped<ExchangeRateService>();
 
 var app = builder.Build();
 

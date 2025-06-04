@@ -13,20 +13,14 @@ namespace CurrencyExchangeAPI.Controllers
     [Route("api/[controller]")]
     public class ExchangeRatesController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
-        private readonly RateFetcherService _rateFetcherService;
         private readonly ExchangeRateService _exchangeRateService;
         private readonly ILogger<ExchangeRatesController> _logger;
         private readonly string[] _supportedCurrencies = { "USD", "EUR", "GBP", "ILS" };
 
         public ExchangeRatesController(
-            ApplicationDbContext context,
-            RateFetcherService rateFetcherService,
             ExchangeRateService exchangeRateService,
             ILogger<ExchangeRatesController> logger)
         {
-            _context = context;
-            _rateFetcherService = rateFetcherService;
             _exchangeRateService = exchangeRateService;
             _logger = logger;
         }
@@ -77,7 +71,7 @@ namespace CurrencyExchangeAPI.Controllers
         }
 
         [HttpGet("history/{fromCurrency}/{toCurrency}")]
-        public async Task<ActionResult<IEnumerable<ExchangeRate>>> GetExchangeRateHistory(string fromCurrency, string toCurrency)
+        public async Task<IActionResult> GetExchangeRateHistory(string fromCurrency, string toCurrency)
         {
             try
             {
@@ -95,16 +89,13 @@ namespace CurrencyExchangeAPI.Controllers
                     return BadRequest("The rate of a currency with itself is always 1. Please select different currencies.");
                 }
 
-                var rates = await _context.ExchangeRates
-                    .Where(r => r.BaseCurrency == fromCurrency && r.TargetCurrency == toCurrency)
-                    .OrderByDescending(r => r.Timestamp)
-                    .ToListAsync();
-
+                var rates = await _exchangeRateService.GetExchangeRateHistoryAsync(fromCurrency, toCurrency);
                 return Ok(rates);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"An error occurred: {ex.Message}");
+                _logger.LogError(ex, "Error occurred while fetching exchange rate history");
+                return StatusCode(500, "An error occurred while processing your request");
             }
         }
     }

@@ -91,6 +91,14 @@ public class ExchangeRateService
             .ToListAsync();
     }
 
+    public async Task<IEnumerable<ExchangeRate>> GetExchangeRateHistoryAsync(string fromCurrency, string toCurrency)
+    {
+        return await _dbContext.ExchangeRates
+            .Where(r => r.BaseCurrency == fromCurrency && r.TargetCurrency == toCurrency)
+            .OrderByDescending(r => r.Timestamp)
+            .ToListAsync();
+    }
+
     private async Task<Dictionary<string, decimal>> GetExchangeRatesAsync()
     {
         var url = $"{_baseUrl}access_key={_apiKey}";
