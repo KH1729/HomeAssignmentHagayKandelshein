@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "LEuGJ+ANdUU=",
+  "dgSpecHash": "+g7mCOeB/sA=",
   "success": true,
-  "projectFilePath": "/Users/hagay/projects/c#projects/currencyHomeAssignment/CurrencyExchangeAPI/CurrencyExchangeAPI.csproj",
+  "projectFilePath": "/Users/hagay/projects/c#projects/HomeAassignmentHagayKandelshein/CurrencyExchangeAPI/CurrencyExchangeAPI.csproj",
   "expectedPackageFiles": [
     "/Users/hagay/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/Users/hagay/.nuget/packages/microsoft.aspnetcore.openapi/9.0.5/microsoft.aspnetcore.openapi.9.0.5.nupkg.sha512",

@@ -1,106 +1,114 @@
 # Currency Exchange API
 
-A .NET Core Web API for real-time currency exchange rates, focusing on specific currency pairs.
+A .NET Core Web API project that provides real-time currency exchange rates using the FX Rates API.
 
 ## Features
 
-- Real-time currency exchange rates using CurrencyLayer API
-- Support for specific currency pairs (USD/ILS, EUR/ILS, GBP/ILS, EUR/USD, EUR/GBP)
-- Automatic rate updates every 10 seconds
-- Historical rate storage
-- Swagger UI for API documentation
+- Real-time currency exchange rate fetching
+- Support for USD, EUR, GBP, and ILS currencies
+- Automatic cross-rate calculations for non-USD base currencies
+- Background service for periodic rate updates
+- Interactive web interface for rate monitoring
+- Detailed error handling and logging
+- Automatic retry mechanism for failed requests
 
 ## Prerequisites
 
-- .NET 9.0 SDK
-- Visual Studio 2022 or Visual Studio Code
-- CurrencyLayer API key (free tier available at [CurrencyLayer](https://currencylayer.com/))
+- .NET 7.0 SDK or later
+- An API key from [FX Rates API](https://fxratesapi.com/)
 
-## Setup
+## Configuration
 
-1. Clone the repository:
-```bash
-git clone https://github.com/KH1729/HomeAssignmentHagayKandelshein.git 
-cd CurrencyExchangeAPI
+1. Clone the repository
+2. Open `appsettings.json` and update the following settings:
+```json
+{
+  "CurrencyLayer": {
+    "ApiKey": "YOUR_FX_RATES_API_KEY",
+    "BaseUrl": "https://api.fxratesapi.com/latest?"
+  }
+}
 ```
 
-2. Restore dependencies:
+## Running the Application
+
+1. Navigate to the project directory
+2. Run the following commands:
 ```bash
 dotnet restore
-```
-
-3. Run the application:
-```bash
 dotnet run
 ```
-
-The API will be available at `http://localhost:5051`
+3. The application will be available at:
+   - Web Interface: `https://localhost:5001` or `http://localhost:5000`
+   - API Endpoints: `https://localhost:5001/api` or `http://localhost:5000/api`
 
 ## API Endpoints
 
 ### Get Latest Exchange Rate
 ```
-GET /api/exchangerates/latest/{pairName}
+GET /api/exchangerates/latest/{fromCurrency}/{toCurrency}
 ```
-
-Example:
-```
-GET /api/exchangerates/latest/USD/ILS
-```
+Example: `/api/exchangerates/latest/USD/EUR`
 
 Response:
 ```json
 {
-  "pairName": "USD/ILS",
-  "rate": 3.65,
-  "lastUpdateTime": "2024-03-20T10:30:00Z"
+    "baseCurrency": "USD",
+    "targetCurrency": "EUR",
+    "rate": 0.9234,
+    "timestamp": "2024-03-14T12:00:00Z"
 }
 ```
 
-### Get Exchange Rate History
-```
-GET /api/exchangerates/history/{pairName}
-```
+## Web Interface Features
 
-Example:
-```
-GET /api/exchangerates/history/USD/ILS
-```
+The application includes a user-friendly web interface with the following features:
 
-## Supported Currency Pairs
+1. Currency Selection
+   - Dropdown menus for selecting source and target currencies
+   - Support for USD, EUR, GBP, and ILS
 
-- USD/ILS (US Dollar to Israeli Shekel)
-- EUR/ILS (Euro to Israeli Shekel)
-- GBP/ILS (British Pound to Israeli Shekel)
-- EUR/USD (Euro to US Dollar)
-- EUR/GBP (Euro to British Pound)
+2. Rate Monitoring
+   - Start/Stop buttons for controlling rate updates
+   - Automatic updates every 10 seconds when active
+   - Displays the last 10 exchange rates
+   - Shows pair name, rate, and last update time
 
-## Database
+3. Error Handling
+   - Visual error messages for API issues
+   - Automatic stopping after 3 consecutive errors
+   - Clear status indicators for active/error states
 
-The application uses SQLite for storing historical exchange rates. The database file (`CurrencyExchange.db`) will be created automatically when the application runs for the first time.
-
-## Background Service
-
-The application includes a background service that updates exchange rates every 10 seconds. The rates are stored in the SQLite database for historical tracking.
-
-## Swagger Documentation
-
-API documentation is available through Swagger UI at:
-```
-http://localhost:5051/swagger
-```
+4. User Experience
+   - Responsive design using Bootstrap
+   - Disabled button states to prevent multiple requests
+   - Real-time status updates
+   - Formatted rate display with 4 decimal places
 
 ## Error Handling
 
-The API returns appropriate HTTP status codes and error messages:
-- 200: Successful operation
-- 400: Bad request (invalid currency pair)
-- 404: Resource not found
-- 500: Internal server error
+The application includes comprehensive error handling:
+
+1. API Errors
+   - Rate limit exceeded detection
+   - Invalid API key handling
+   - Network error handling
+   - JSON parsing error handling
+
+2. User Feedback
+   - Clear error messages in the UI
+   - Status indicators for current state
+   - Automatic recovery attempts
+   - Graceful degradation on persistent errors
 
 ## Logging
 
-The application logs important events and errors. Logs can be found in the console output when running the application.
+The application logs important events:
+- API requests and responses
+- Error conditions and details
+- Rate calculations
+- Cross-rate computations
+- Background service operations
 
 ## Contributing
 

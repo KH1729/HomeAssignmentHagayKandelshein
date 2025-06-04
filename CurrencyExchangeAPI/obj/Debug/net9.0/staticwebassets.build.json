@@ -1,12 +1,362 @@
 {
   "Version": 1,
-  "Hash": "zj3ULivwnTdSMRXW+T3/AK6Vw4BDYWpdJPyxEaPF1Hc=",
+  "Hash": "zj8k/mBV/V6jxukRCjZ+J4DB0fkJ9b9M7dDx50qqCNg=",
   "Source": "CurrencyExchangeAPI",
   "BasePath": "_content/CurrencyExchangeAPI",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": [],
-  "Endpoints": []
+  "DiscoveryPatterns": [
+    {
+      "Name": "CurrencyExchangeAPI/wwwroot",
+      "Source": "CurrencyExchangeAPI",
+      "ContentRoot": "/Users/hagay/projects/c#projects/HomeAassignmentHagayKandelshein/CurrencyExchangeAPI/wwwroot/",
+      "BasePath": "_content/CurrencyExchangeAPI",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "/Users/hagay/projects/c#projects/HomeAassignmentHagayKandelshein/CurrencyExchangeAPI/obj/Debug/net9.0/compressed/xsjeq6jnb5-g8nqn89li8.gz",
+      "SourceId": "CurrencyExchangeAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/hagay/projects/c#projects/HomeAassignmentHagayKandelshein/CurrencyExchangeAPI/obj/Debug/net9.0/compressed/",
+      "BasePath": "_content/CurrencyExchangeAPI",
+      "RelativePath": "index#[.{fingerprint=g8nqn89li8}]?.html.gz",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "/Users/hagay/projects/c#projects/HomeAassignmentHagayKandelshein/CurrencyExchangeAPI/wwwroot/index.html",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "6xpds1ohdv",
+      "Integrity": "hju5Dfvz8VvXjHTypa8Z4IhUgFTaCKl7DX8QXN+O6hQ=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "/Users/hagay/projects/c#projects/HomeAassignmentHagayKandelshein/CurrencyExchangeAPI/wwwroot/index.html"
+    },
+    {
+      "Identity": "/Users/hagay/projects/c#projects/HomeAassignmentHagayKandelshein/CurrencyExchangeAPI/wwwroot/index.html",
+      "SourceId": "CurrencyExchangeAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/hagay/projects/c#projects/HomeAassignmentHagayKandelshein/CurrencyExchangeAPI/wwwroot/",
+      "BasePath": "_content/CurrencyExchangeAPI",
+      "RelativePath": "index#[.{fingerprint}]?.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "g8nqn89li8",
+      "Integrity": "IF96PnGhedFPPjpACK7OC3AIUSXgNEuDjr2yaMJiUJA=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/index.html"
+    }
+  ],
+  "Endpoints": [
+    {
+      "Route": "index.g8nqn89li8.html",
+      "AssetFile": "/Users/hagay/projects/c#projects/HomeAassignmentHagayKandelshein/CurrencyExchangeAPI/obj/Debug/net9.0/compressed/xsjeq6jnb5-g8nqn89li8.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000521920668"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1915"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"hju5Dfvz8VvXjHTypa8Z4IhUgFTaCKl7DX8QXN+O6hQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 04 Jun 2025 16:26:26 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"IF96PnGhedFPPjpACK7OC3AIUSXgNEuDjr2yaMJiUJA=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "g8nqn89li8"
+        },
+        {
+          "Name": "label",
+          "Value": "index.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-IF96PnGhedFPPjpACK7OC3AIUSXgNEuDjr2yaMJiUJA="
+        }
+      ]
+    },
+    {
+      "Route": "index.g8nqn89li8.html",
+      "AssetFile": "/Users/hagay/projects/c#projects/HomeAassignmentHagayKandelshein/CurrencyExchangeAPI/wwwroot/index.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "6898"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"IF96PnGhedFPPjpACK7OC3AIUSXgNEuDjr2yaMJiUJA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 04 Jun 2025 16:26:26 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "g8nqn89li8"
+        },
+        {
+          "Name": "label",
+          "Value": "index.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-IF96PnGhedFPPjpACK7OC3AIUSXgNEuDjr2yaMJiUJA="
+        }
+      ]
+    },
+    {
+      "Route": "index.g8nqn89li8.html.gz",
+      "AssetFile": "/Users/hagay/projects/c#projects/HomeAassignmentHagayKandelshein/CurrencyExchangeAPI/obj/Debug/net9.0/compressed/xsjeq6jnb5-g8nqn89li8.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1915"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"hju5Dfvz8VvXjHTypa8Z4IhUgFTaCKl7DX8QXN+O6hQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 04 Jun 2025 16:26:26 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "g8nqn89li8"
+        },
+        {
+          "Name": "label",
+          "Value": "index.html.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-hju5Dfvz8VvXjHTypa8Z4IhUgFTaCKl7DX8QXN+O6hQ="
+        }
+      ]
+    },
+    {
+      "Route": "index.html",
+      "AssetFile": "/Users/hagay/projects/c#projects/HomeAassignmentHagayKandelshein/CurrencyExchangeAPI/obj/Debug/net9.0/compressed/xsjeq6jnb5-g8nqn89li8.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000521920668"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1915"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"hju5Dfvz8VvXjHTypa8Z4IhUgFTaCKl7DX8QXN+O6hQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 04 Jun 2025 16:26:26 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"IF96PnGhedFPPjpACK7OC3AIUSXgNEuDjr2yaMJiUJA=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-IF96PnGhedFPPjpACK7OC3AIUSXgNEuDjr2yaMJiUJA="
+        }
+      ]
+    },
+    {
+      "Route": "index.html",
+      "AssetFile": "/Users/hagay/projects/c#projects/HomeAassignmentHagayKandelshein/CurrencyExchangeAPI/wwwroot/index.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "6898"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"IF96PnGhedFPPjpACK7OC3AIUSXgNEuDjr2yaMJiUJA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 04 Jun 2025 16:26:26 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-IF96PnGhedFPPjpACK7OC3AIUSXgNEuDjr2yaMJiUJA="
+        }
+      ]
+    },
+    {
+      "Route": "index.html.gz",
+      "AssetFile": "/Users/hagay/projects/c#projects/HomeAassignmentHagayKandelshein/CurrencyExchangeAPI/obj/Debug/net9.0/compressed/xsjeq6jnb5-g8nqn89li8.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1915"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"hju5Dfvz8VvXjHTypa8Z4IhUgFTaCKl7DX8QXN+O6hQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 04 Jun 2025 16:26:26 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-hju5Dfvz8VvXjHTypa8Z4IhUgFTaCKl7DX8QXN+O6hQ="
+        }
+      ]
+    }
+  ]
 }

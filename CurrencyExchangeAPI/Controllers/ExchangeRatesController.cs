@@ -14,7 +14,7 @@ namespace CurrencyExchangeAPI.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly CurrencyLayerService _currencyLayerService;
-        private readonly string[] _supportedPairs = { "USD/ILS", "EUR/ILS", "GBP/ILS", "EUR/USD", "EUR/GBP" };
+        private readonly string[] _supportedCurrencies = { "USD", "EUR", "GBP", "ILS" };
 
         public ExchangeRatesController(
             ApplicationDbContext context,
@@ -24,17 +24,21 @@ namespace CurrencyExchangeAPI.Controllers
             _currencyLayerService = currencyLayerService;
         }
 
-        [HttpGet("latest/{pairName}")]
-        public async Task<ActionResult<ExchangeRate>> GetLatestRate(string pairName)
+        [HttpGet("latest/{fromCurrency}/{toCurrency}")]
+        public async Task<ActionResult<ExchangeRate>> GetLatestRate(string fromCurrency, string toCurrency)
         {
             try
             {
-                if (!_supportedPairs.Contains(pairName))
+                if (!_supportedCurrencies.Contains(fromCurrency))
                 {
-                    return BadRequest($"Unsupported currency pair. Supported pairs are: {string.Join(", ", _supportedPairs)}");
+                    return BadRequest($"Unsupported currency: {fromCurrency}. Supported currencies are: {string.Join(", ", _supportedCurrencies)}");
+                }
+                if (!_supportedCurrencies.Contains(toCurrency))
+                {
+                    return BadRequest($"Unsupported currency: {toCurrency}. Supported currencies are: {string.Join(", ", _supportedCurrencies)}");
                 }
 
-                var rate = await _currencyLayerService.GetExchangeRateAsync(pairName);
+                var rate = await _currencyLayerService.GetExchangeRateAsync(fromCurrency, toCurrency);
                 return Ok(rate);
             }
             catch (Exception ex)
@@ -43,17 +47,21 @@ namespace CurrencyExchangeAPI.Controllers
             }
         }
 
-        [HttpGet("history/{pairName}")]
-        public async Task<ActionResult<IEnumerable<ExchangeRate>>> GetExchangeRateHistory(string pairName)
+        [HttpGet("history/{fromCurrency}/{toCurrency}")]
+        public async Task<ActionResult<IEnumerable<ExchangeRate>>> GetExchangeRateHistory(string fromCurrency, string toCurrency)
         {
-            if (!_supportedPairs.Contains(pairName))
+            if (!_supportedCurrencies.Contains(fromCurrency))
             {
-                return BadRequest($"Unsupported currency pair. Supported pairs are: {string.Join(", ", _supportedPairs)}");
+                return BadRequest($"Unsupported currency: {fromCurrency}. Supported currencies are: {string.Join(", ", _supportedCurrencies)}");
+            }
+            if (!_supportedCurrencies.Contains(toCurrency))
+            {
+                return BadRequest($"Unsupported currency: {toCurrency}. Supported currencies are: {string.Join(", ", _supportedCurrencies)}");
             }
 
             var rates = await _context.ExchangeRates
-                .Where(r => r.PairName == pairName)
-                .OrderByDescending(r => r.LastUpdateTime)
+                .Where(r => r.BaseCurrency == fromCurrency && r.TargetCurrency == toCurrency)
+                .OrderByDescending(r => r.Timestamp)
                 .ToListAsync();
 
             return rates;

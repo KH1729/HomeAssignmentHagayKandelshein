@@ -20,6 +20,17 @@ builder.Services.AddHttpClient<CurrencyLayerService>();
 // Register background service
 builder.Services.AddHostedService<ExchangeRateBackgroundService>();
 
+// Add CORS
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -30,8 +41,13 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseCors();
 app.UseAuthorization();
 app.MapControllers();
+
+// Set default page
+app.MapFallbackToFile("index.html");
 
 // Ensure database is created
 using (var scope = app.Services.CreateScope())

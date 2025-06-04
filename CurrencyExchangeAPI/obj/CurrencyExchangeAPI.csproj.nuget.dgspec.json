@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/hagay/projects/c#projects/currencyHomeAssignment/CurrencyExchangeAPI/CurrencyExchangeAPI.csproj": {}
+    "/Users/hagay/projects/c#projects/HomeAassignmentHagayKandelshein/CurrencyExchangeAPI/CurrencyExchangeAPI.csproj": {}
   },
   "projects": {
-    "/Users/hagay/projects/c#projects/currencyHomeAssignment/CurrencyExchangeAPI/CurrencyExchangeAPI.csproj": {
+    "/Users/hagay/projects/c#projects/HomeAassignmentHagayKandelshein/CurrencyExchangeAPI/CurrencyExchangeAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/hagay/projects/c#projects/currencyHomeAssignment/CurrencyExchangeAPI/CurrencyExchangeAPI.csproj",
+        "projectUniqueName": "/Users/hagay/projects/c#projects/HomeAassignmentHagayKandelshein/CurrencyExchangeAPI/CurrencyExchangeAPI.csproj",
         "projectName": "CurrencyExchangeAPI",
-        "projectPath": "/Users/hagay/projects/c#projects/currencyHomeAssignment/CurrencyExchangeAPI/CurrencyExchangeAPI.csproj",
+        "projectPath": "/Users/hagay/projects/c#projects/HomeAassignmentHagayKandelshein/CurrencyExchangeAPI/CurrencyExchangeAPI.csproj",
         "packagesPath": "/Users/hagay/.nuget/packages/",
-        "outputPath": "/Users/hagay/projects/c#projects/currencyHomeAssignment/CurrencyExchangeAPI/obj/",
+        "outputPath": "/Users/hagay/projects/c#projects/HomeAassignmentHagayKandelshein/CurrencyExchangeAPI/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/hagay/.nuget/NuGet/NuGet.Config"

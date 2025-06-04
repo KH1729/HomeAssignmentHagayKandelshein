@@ -14,7 +14,7 @@ namespace CurrencyExchangeAPI.Services
         private readonly string _apiKey;
         private readonly string _baseUrl;
         private readonly ILogger<CurrencyLayerService> _logger;
-        private readonly string[] _supportedPairs = { "USD/ILS", "EUR/ILS", "GBP/ILS", "EUR/USD", "EUR/GBP" };
+        private readonly string[] _supportedCurrencies = { "USD", "EUR", "GBP", "ILS" };
 
         public CurrencyLayerService(
             HttpClient httpClient, 
@@ -27,33 +27,48 @@ namespace CurrencyExchangeAPI.Services
             _logger = logger;
         }
 
-        public async Task<ExchangeRate> GetExchangeRateAsync(string pairName)
+        public async Task<ExchangeRate> GetExchangeRateAsync(string fromCurrency, string toCurrency)
         {
-            if (!_supportedPairs.Contains(pairName))
+            // Validate currencies
+            if (!_supportedCurrencies.Contains(fromCurrency))
             {
-                throw new ArgumentException($"Unsupported currency pair: {pairName}. Supported pairs are: {string.Join(", ", _supportedPairs)}");
+                throw new ArgumentException($"Unsupported currency: {fromCurrency}. Supported currencies are: {string.Join(", ", _supportedCurrencies)}");
+            }
+            if (!_supportedCurrencies.Contains(toCurrency))
+            {
+                throw new ArgumentException($"Unsupported currency: {toCurrency}. Supported currencies are: {string.Join(", ", _supportedCurrencies)}");
             }
 
-            var currencies = pairName.Split('/');
-            var fromCurrency = currencies[0];
-            var toCurrency = currencies[1];
+            // If currencies are the same, return rate of 1
+            if (fromCurrency == toCurrency)
+            {
+                _logger.LogInformation($"Same currency pair {fromCurrency}/{toCurrency} - returning rate 1.0");
+                return new ExchangeRate
+                {
+                    BaseCurrency = fromCurrency,
+                    TargetCurrency = toCurrency,
+                    Rate = 1.0m,
+                    Timestamp = DateTime.UtcNow
+                };
+            }
 
-            _logger.LogInformation($"Getting exchange rate for {pairName}");
+            _logger.LogInformation($"Getting exchange rate for {fromCurrency}/{toCurrency}");
 
             // If the base currency is USD, we can get the rate directly
             if (fromCurrency == "USD")
             {
                 var quotes = await GetExchangeRatesAsync(toCurrency);
-                var quoteKey = $"USD{toCurrency}";
-                if (!quotes.TryGetValue(quoteKey, out var rate))
+                if (!quotes.TryGetValue(toCurrency, out var rate))
                 {
-                    throw new Exception($"Exchange rate not found for {quoteKey}");
+                    throw new Exception($"Exchange rate not found for USD/{toCurrency}");
                 }
+                _logger.LogInformation($"Fetched direct rate for {fromCurrency}/{toCurrency}: {rate}");
                 return new ExchangeRate
                 {
-                    PairName = pairName,
+                    BaseCurrency = fromCurrency,
+                    TargetCurrency = toCurrency,
                     Rate = rate,
-                    LastUpdateTime = DateTime.UtcNow
+                    Timestamp = DateTime.UtcNow
                 };
             }
 
@@ -61,23 +76,30 @@ namespace CurrencyExchangeAPI.Services
             var allQuotes = await GetExchangeRatesAsync($"{fromCurrency},{toCurrency}");
             
             // Get the USD rates for both currencies
-            var usdFromRate = allQuotes[$"USD{fromCurrency}"];
-            var usdToRate = allQuotes[$"USD{toCurrency}"];
+            var usdFromRate = allQuotes[fromCurrency];
+            var usdToRate = allQuotes[toCurrency];
 
             // Calculate the cross-rate
             var crossRate = usdToRate / usdFromRate;
             
+            _logger.LogInformation($"Calculated cross-rate for {fromCurrency}/{toCurrency}: {crossRate} (using USD/{fromCurrency}: {usdFromRate} and USD/{toCurrency}: {usdToRate})");
+            
             return new ExchangeRate
             {
-                PairName = pairName,
+                BaseCurrency = fromCurrency,
+                TargetCurrency = toCurrency,
                 Rate = crossRate,
-                LastUpdateTime = DateTime.UtcNow
+                Timestamp = DateTime.UtcNow
             };
         }
 
         internal async Task<Dictionary<string, decimal>> GetExchangeRatesAsync(string currencies)
         {
-            var url = $"{_baseUrl}?access_key={_apiKey}&currencies={currencies}";
+            // Remove any spaces and ensure currencies are comma-separated
+            var cleanCurrencies = string.Join(",", currencies.Split(',').Select(c => c.Trim()));
+            
+            // Construct the URL with the correct format for FX Rates API
+            var url = $"{_baseUrl}api_key={_apiKey}&currencies={cleanCurrencies}&base=USD";
             _logger.LogInformation($"Calling API: {url}");
             
             try 
@@ -94,31 +116,48 @@ namespace CurrencyExchangeAPI.Services
                     throw new Exception($"API call failed with status code: {response.StatusCode}. Response: {content}");
                 }
 
-                var result = JsonSerializer.Deserialize<CurrencyLayerResponse>(content, new JsonSerializerOptions
+                try
                 {
-                    PropertyNameCaseInsensitive = true
-                });
+                    var result = JsonSerializer.Deserialize<FxRatesResponse>(content, new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    });
 
-                if (result == null)
-                {
-                    _logger.LogError("Failed to deserialize response from CurrencyLayer API");
-                    throw new Exception("Failed to deserialize response from CurrencyLayer API");
+                    if (result == null)
+                    {
+                        _logger.LogError("Failed to deserialize response from FX Rates API");
+                        throw new Exception("Failed to deserialize response from FX Rates API");
+                    }
+
+                    if (!result.Success)
+                    {
+                        var errorMessage = result.Error?.Message ?? "Unknown error";
+                        var errorCode = result.Error?.Code ?? 0;
+                        
+                        if (errorCode == 104)
+                        {
+                            throw new Exception("API request limit exceeded. Please try again later or upgrade your API plan.");
+                        }
+                        
+                        _logger.LogError($"API returned error: {errorMessage} (Code: {errorCode})");
+                        throw new Exception($"Failed to get exchange rates: {errorMessage}");
+                    }
+
+                    if (result.Rates == null || !result.Rates.Any())
+                    {
+                        _logger.LogError("No rates returned from FX Rates API");
+                        throw new Exception("No rates returned from FX Rates API");
+                    }
+
+                    _logger.LogInformation($"Successfully fetched rates: {string.Join(", ", result.Rates.Select(q => $"{q.Key}: {q.Value}"))}");
+                    return result.Rates;
                 }
-
-                if (!result.Success)
+                catch (JsonException ex)
                 {
-                    var errorMessage = result.Error?.Info ?? "Unknown error";
-                    _logger.LogError($"API returned error: {errorMessage}");
-                    throw new Exception($"Failed to get exchange rates: {errorMessage}");
+                    _logger.LogError($"JSON parsing error: {ex.Message}");
+                    _logger.LogError($"Raw response content: {content}");
+                    throw new Exception($"Invalid response from API: {content}");
                 }
-
-                if (result.Quotes == null || !result.Quotes.Any())
-                {
-                    _logger.LogError("No quotes returned from CurrencyLayer API");
-                    throw new Exception("No quotes returned from CurrencyLayer API");
-                }
-
-                return result.Quotes;
             }
             catch (Exception ex)
             {
@@ -128,19 +167,18 @@ namespace CurrencyExchangeAPI.Services
         }
     }
 
-    public class CurrencyLayerResponse
+    public class FxRatesResponse
     {
         public bool Success { get; set; }
-        public string? Terms { get; set; }
-        public string? Privacy { get; set; }
         public long Timestamp { get; set; }
-        public string? Source { get; set; }
-        public Dictionary<string, decimal>? Quotes { get; set; }
-        public CurrencyLayerError? Error { get; set; }
+        public string? Base { get; set; }
+        public Dictionary<string, decimal>? Rates { get; set; }
+        public FxRatesError? Error { get; set; }
     }
 
-    public class CurrencyLayerError
+    public class FxRatesError
     {
-        public string? Info { get; set; }
+        public string? Message { get; set; }
+        public int Code { get; set; }
     }
 } 
