@@ -20,14 +20,7 @@ A .NET Core Web API project that provides real-time currency exchange rates usin
 ## Configuration
 
 1. Clone the repository
-2. Open `appsettings.json` and update the following settings:
-```json
-{
-  "CurrencyLayer": {
-    "ApiKey": "YOUR_FX_RATES_API_KEY",
-    "BaseUrl": "https://api.fxratesapi.com/latest?"
-  }
-}
+
 ```
 
 ## Running the Application
@@ -39,8 +32,8 @@ dotnet restore
 dotnet run
 ```
 3. The application will be available at:
-   - Web Interface: `https://localhost:5001` or `http://localhost:5000`
-   - API Endpoints: `https://localhost:5001/api` or `http://localhost:5000/api`
+   - Web Interface: `https://localhost:7216` or `http://localhost:5051`
+   - API Endpoints: `https://localhost:7216/api` or `http://localhost:5051/api`
 
 ## API Endpoints
 

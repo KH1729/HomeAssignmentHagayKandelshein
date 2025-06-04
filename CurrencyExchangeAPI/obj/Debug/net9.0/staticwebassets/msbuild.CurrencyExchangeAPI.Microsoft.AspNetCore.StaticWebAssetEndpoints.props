@@ -1,16 +1,16 @@
 ﻿<Project>
   <ItemGroup>
-    <StaticWebAssetEndpoint Include="_content/CurrencyExchangeAPI/index.g8nqn89li8.html">
-      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\index.html'))</AssetFile>
-      <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"g8nqn89li8"},{"Name":"integrity","Value":"sha256-IF96PnGhedFPPjpACK7OC3AIUSXgNEuDjr2yaMJiUJA="},{"Name":"label","Value":"_content/CurrencyExchangeAPI/index.html"}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"6898"},{"Name":"Content-Type","Value":"text/html"},{"Name":"ETag","Value":"\u0022IF96PnGhedFPPjpACK7OC3AIUSXgNEuDjr2yaMJiUJA=\u0022"},{"Name":"Last-Modified","Value":"Wed, 04 Jun 2025 16:26:26 GMT"}]]]></ResponseHeaders>
-    </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/CurrencyExchangeAPI/index.html">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\index.html'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-IF96PnGhedFPPjpACK7OC3AIUSXgNEuDjr2yaMJiUJA="}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"6898"},{"Name":"Content-Type","Value":"text/html"},{"Name":"ETag","Value":"\u0022IF96PnGhedFPPjpACK7OC3AIUSXgNEuDjr2yaMJiUJA=\u0022"},{"Name":"Last-Modified","Value":"Wed, 04 Jun 2025 16:26:26 GMT"}]]]></ResponseHeaders>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-VVLLgqIuWJcVAai5fB696artHXlOQE\u002BEhVocHEsopaU="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"7477"},{"Name":"Content-Type","Value":"text/html"},{"Name":"ETag","Value":"\u0022VVLLgqIuWJcVAai5fB696artHXlOQE\u002BEhVocHEsopaU=\u0022"},{"Name":"Last-Modified","Value":"Wed, 04 Jun 2025 16:34:04 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/CurrencyExchangeAPI/index.tm63ir31py.html">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\index.html'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"tm63ir31py"},{"Name":"integrity","Value":"sha256-VVLLgqIuWJcVAai5fB696artHXlOQE\u002BEhVocHEsopaU="},{"Name":"label","Value":"_content/CurrencyExchangeAPI/index.html"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"7477"},{"Name":"Content-Type","Value":"text/html"},{"Name":"ETag","Value":"\u0022VVLLgqIuWJcVAai5fB696artHXlOQE\u002BEhVocHEsopaU=\u0022"},{"Name":"Last-Modified","Value":"Wed, 04 Jun 2025 16:34:04 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
   </ItemGroup>
 </Project>
