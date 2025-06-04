@@ -33,6 +33,7 @@ builder.Services.AddCors(options =>
 
 // Add services
 builder.Services.AddScoped<RateFetcherService>();
+builder.Services.AddScoped<ExchangeRateService>();
 
 var app = builder.Build();
 

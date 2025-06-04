@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using CurrencyExchangeAPI.Data;
 using CurrencyExchangeAPI.Models;
 using CurrencyExchangeAPI.Services;
+using Microsoft.Extensions.Logging;
 
 namespace CurrencyExchangeAPI.Controllers
 {
@@ -14,18 +15,24 @@ namespace CurrencyExchangeAPI.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly RateFetcherService _rateFetcherService;
+        private readonly ExchangeRateService _exchangeRateService;
+        private readonly ILogger<ExchangeRatesController> _logger;
         private readonly string[] _supportedCurrencies = { "USD", "EUR", "GBP", "ILS" };
 
         public ExchangeRatesController(
             ApplicationDbContext context,
-            RateFetcherService rateFetcherService)
+            RateFetcherService rateFetcherService,
+            ExchangeRateService exchangeRateService,
+            ILogger<ExchangeRatesController> logger)
         {
             _context = context;
             _rateFetcherService = rateFetcherService;
+            _exchangeRateService = exchangeRateService;
+            _logger = logger;
         }
 
-        [HttpGet("latest/{fromCurrency}/{toCurrency}")]
-        public async Task<ActionResult<ExchangeRate>> GetLatestRate(string fromCurrency, string toCurrency)
+        [HttpGet("{fromCurrency}/{toCurrency}")]
+        public async Task<IActionResult> GetExchangeRate(string fromCurrency, string toCurrency)
         {
             try
             {
@@ -38,16 +45,34 @@ namespace CurrencyExchangeAPI.Controllers
                     return BadRequest($"Unsupported currency: {toCurrency}. Supported currencies are: {string.Join(", ", _supportedCurrencies)}");
                 }
 
-                var rate = await _rateFetcherService.GetExchangeRateAsync(fromCurrency, toCurrency);
+                var rate = await _exchangeRateService.GetLatestRateAsync(fromCurrency, toCurrency);
+                
+                if (rate == null)
+                {
+                    return NotFound($"No exchange rate found for {fromCurrency}/{toCurrency}");
+                }
+
                 return Ok(rate);
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"An error occurred: {ex.Message}");
+                _logger.LogError(ex, "Error occurred while fetching exchange rate");
+                return StatusCode(500, "An error occurred while processing your request");
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllRates()
+        {
+            try
+            {
+                var rates = await _exchangeRateService.GetAllLatestRatesAsync();
+                return Ok(rates);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while fetching all rates");
+                return StatusCode(500, "An error occurred while processing your request");
             }
         }
 

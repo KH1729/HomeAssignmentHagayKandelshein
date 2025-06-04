@@ -1,12 +1,9 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using CurrencyExchangeAPI.Data;
-using CurrencyExchangeAPI.Models;
 
 namespace CurrencyExchangeAPI.Services
 {
@@ -15,7 +12,6 @@ namespace CurrencyExchangeAPI.Services
         private readonly ILogger<ExchangeRateBackgroundService> _logger;
         private readonly IServiceProvider _serviceProvider;
         private readonly PeriodicTimer _timer;
-        private readonly string[] _supportedCurrencies = { "USD", "EUR", "GBP", "ILS" };
 
         public ExchangeRateBackgroundService(
             ILogger<ExchangeRateBackgroundService> logger,
@@ -38,30 +34,8 @@ namespace CurrencyExchangeAPI.Services
 
                     using (var scope = _serviceProvider.CreateScope())
                     {
-                        var rateFetcherService = scope.ServiceProvider.GetRequiredService<RateFetcherService>();
-                        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-
-                        // Generate all possible currency pairs
-                        var currencyPairs = _supportedCurrencies
-                            .SelectMany(from => _supportedCurrencies.Select(to => (From: from, To: to)))
-                            .ToList();
-
-                        foreach (var pair in currencyPairs)
-                        {
-                            try
-                            {
-                                var rate = await rateFetcherService.GetExchangeRateAsync(pair.From, pair.To);
-                                dbContext.ExchangeRates.Add(rate);
-                                _logger.LogInformation($"Successfully fetched rate for {pair.From}/{pair.To}: {rate.Rate}");
-                            }
-                            catch (Exception ex)
-                            {
-                                _logger.LogError($"Error updating rate for {pair.From}/{pair.To}: {ex.Message}");
-                            }
-                        }
-
-                        await dbContext.SaveChangesAsync();
-                        _logger.LogInformation("All exchange rates updated successfully");
+                        var exchangeRateService = scope.ServiceProvider.GetRequiredService<ExchangeRateService>();
+                        await exchangeRateService.FetchAndStoreRatesAsync();
                     }
                 }
             }
