@@ -20,26 +20,16 @@ A .NET Core Web API for real-time currency exchange rates, focusing on specific 
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
+git clone https://github.com/KH1729/HomeAssignmentHagayKandelshein.git 
 cd CurrencyExchangeAPI
 ```
 
-2. Update the API key in `appsettings.json`:
-```json
-{
-  "CurrencyLayer": {
-    "ApiKey": "your-api-key-here",
-    "BaseUrl": "https://api.apilayer.com/live"
-  }
-}
-```
-
-3. Restore dependencies:
+2. Restore dependencies:
 ```bash
 dotnet restore
 ```
 
-4. Run the application:
+3. Run the application:
 ```bash
 dotnet run
 ```
