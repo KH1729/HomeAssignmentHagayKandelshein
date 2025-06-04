@@ -59,6 +59,26 @@ dotnet run
 - Swagger UI: `https://localhost:5051/swagger`
 - API Base URL: `https://localhost:5051/api/exchangerates`
 
+## Database Management
+
+### Cleaning the Database
+To manually clean the database:
+
+1. Stop the application
+2. Delete all database files:
+```bash
+rm CurrencyExchange.db
+rm CurrencyExchange.db-shm
+rm CurrencyExchange.db-wal
+```
+
+The database files are:
+- `CurrencyExchange.db` - Main database file
+- `CurrencyExchange.db-shm` - Shared memory file (SQLite WAL)
+- `CurrencyExchange.db-wal` - Write-Ahead Log file (SQLite WAL)
+
+A new empty database will be created automatically when you restart the application.
+
 ## Project Structure
 
 - `Controllers/` - API endpoints
