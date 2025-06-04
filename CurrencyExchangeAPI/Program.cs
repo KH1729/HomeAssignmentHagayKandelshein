@@ -2,7 +2,16 @@ using Microsoft.EntityFrameworkCore;
 using CurrencyExchangeAPI.Data;
 using CurrencyExchangeAPI.Services;
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+{
+    WebRootPath = null // Disable static web assets
+});
+
+// Disable static web assets completely
+builder.WebHost.ConfigureAppConfiguration((context, config) =>
+{
+    context.HostingEnvironment.WebRootPath = null;
+});
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
