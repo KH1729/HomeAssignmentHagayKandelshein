@@ -1,116 +1,102 @@
 # Currency Exchange API
 
-A .NET Core Web API project that provides real-time currency exchange rates using the FX Rates API.
+A .NET 9.0 Web API that provides real-time currency exchange rates and historical data. The service automatically fetches and updates exchange rates every 10 seconds.
 
 ## Features
 
-- Real-time currency exchange rate fetching
-- Support for USD, EUR, GBP, and ILS currencies
-- Automatic cross-rate calculations for non-USD base currencies
-- Background service for periodic rate updates
-- Interactive web interface for rate monitoring
-- Detailed error handling and logging
-- Automatic retry mechanism for failed requests
+- Real-time currency exchange rates
+- Historical exchange rate data
+- Support for multiple currencies (USD, EUR, GBP, ILS)
+- Automatic rate updates every 10 seconds
+- RESTful API endpoints
+- Swagger UI for API documentation
 
 ## Prerequisites
 
-- .NET 7.0 SDK or later
-- An API key from [FX Rates API](https://fxratesapi.com/)
-
-## Configuration
-
-1. Clone the repository
-
-```
-
-## Running the Application
-
-1. Navigate to the project directory
-2. Run the following commands:
-```bash
-dotnet restore
-dotnet run
-```
-3. The application will be available at:
-   - Web Interface: `https://localhost:7216` or `http://localhost:5051`
-   - API Endpoints: `https://localhost:7216/api` or `http://localhost:5051/api`
+- .NET 9.0 SDK
+- SQLite (included in the project)
+- API key for exchange rates (configure in appsettings.json)
 
 ## API Endpoints
 
 ### Get Latest Exchange Rate
 ```
-GET /api/exchangerates/latest/{fromCurrency}/{toCurrency}
+GET /api/exchangerates/{fromCurrency}/{toCurrency}
 ```
-Example: `/api/exchangerates/latest/USD/EUR`
+Example: `/api/exchangerates/USD/EUR`
 
-Response:
-```json
-{
-    "baseCurrency": "USD",
-    "targetCurrency": "EUR",
-    "rate": 0.9234,
-    "timestamp": "2024-03-14T12:00:00Z"
-}
+### Get All Latest Rates
+```
+GET /api/exchangerates
+```
+Returns the latest rates for all currency pairs.
+
+### Get Exchange Rate History
+```
+GET /api/exchangerates/history/{fromCurrency}/{toCurrency}
+```
+Example: `/api/exchangerates/history/USD/EUR`
+
+## Running the Application
+
+1. Clone the repository:
+```bash
+git clone https://github.com/KH1729/HomeAssignmentHagayKandelshein/tree/main
+cd CurrencyExchangeAPI
 ```
 
-## Web Interface Features
+2. Restore dependencies:
+```bash
+dotnet restore
+```
 
-The application includes a user-friendly web interface with the following features:
+3. Run the application:
+```bash
+dotnet run
+```
 
-1. Currency Selection
-   - Dropdown menus for selecting source and target currencies
-   - Support for USD, EUR, GBP, and ILS
+4. Access the API:
+- Swagger UI: `https://localhost:5051/swagger`
+- API Base URL: `https://localhost:5051/api/exchangerates`
 
-2. Rate Monitoring
-   - Start/Stop buttons for controlling rate updates
-   - Automatic updates every 10 seconds when active
-   - Displays the last 10 exchange rates
-   - Shows pair name, rate, and last update time
+## Project Structure
 
-3. Error Handling
-   - Visual error messages for API issues
-   - Automatic stopping after 3 consecutive errors
-   - Clear status indicators for active/error states
+- `Controllers/` - API endpoints
+  - `ExchangeRatesController.cs` - Handles all exchange rate requests
+- `Services/` - Business logic
+  - `ExchangeRateService.cs` - Handles data fetching and storage
+  - `ExchangeRateBackgroundService.cs` - Manages periodic updates
+- `Models/` - Data models
+  - `ExchangeRate.cs` - Exchange rate entity
+  - `FxRatesResponse.cs` - API response model
+- `Data/` - Database context
+  - `ApplicationDbContext.cs` - Entity Framework context
 
-4. User Experience
-   - Responsive design using Bootstrap
-   - Disabled button states to prevent multiple requests
-   - Real-time status updates
-   - Formatted rate display with 4 decimal places
+## How It Works
+
+1. The `ExchangeRateBackgroundService` runs every 10 seconds
+2. It calls `ExchangeRateService` to fetch new rates from the external API
+3. The service calculates all possible currency pairs
+4. Rates are stored in the SQLite database
+5. API endpoints retrieve rates from the database
 
 ## Error Handling
 
-The application includes comprehensive error handling:
+The API includes comprehensive error handling:
+- Invalid currency pairs
+- API failures
+- Database errors
+- Input validation
 
-1. API Errors
-   - Rate limit exceeded detection
-   - Invalid API key handling
-   - Network error handling
-   - JSON parsing error handling
+All errors are logged and return appropriate HTTP status codes.
 
-2. User Feedback
-   - Clear error messages in the UI
-   - Status indicators for current state
-   - Automatic recovery attempts
-   - Graceful degradation on persistent errors
+## Development
 
-## Logging
-
-The application logs important events:
-- API requests and responses
-- Error conditions and details
-- Rate calculations
-- Cross-rate computations
-- Background service operations
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
+To modify the application:
+1. Update the supported currencies in `ExchangeRateService.cs`
+2. Modify the update interval in `ExchangeRateBackgroundService.cs`
+3. Add new endpoints in `ExchangeRatesController.cs`
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details. 
+[Your License Here] 
