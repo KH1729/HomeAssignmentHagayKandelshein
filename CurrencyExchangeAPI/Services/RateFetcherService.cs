@@ -8,22 +8,22 @@ using CurrencyExchangeAPI.Models;
 
 namespace CurrencyExchangeAPI.Services
 {
-    public class CurrencyLayerService
+    public class RateFetcherService
     {
         private readonly HttpClient _httpClient;
         private readonly string _apiKey;
         private readonly string _baseUrl;
-        private readonly ILogger<CurrencyLayerService> _logger;
+        private readonly ILogger<RateFetcherService> _logger;
         private readonly string[] _supportedCurrencies = { "USD", "EUR", "GBP", "ILS" };
 
-        public CurrencyLayerService(
+        public RateFetcherService(
             HttpClient httpClient, 
             IConfiguration configuration,
-            ILogger<CurrencyLayerService> logger)
+            ILogger<RateFetcherService> logger)
         {
             _httpClient = httpClient;
-            _apiKey = configuration["CurrencyLayer:ApiKey"] ?? throw new ArgumentNullException(nameof(configuration), "CurrencyLayer:ApiKey is not configured");
-            _baseUrl = configuration["CurrencyLayer:BaseUrl"] ?? throw new ArgumentNullException(nameof(configuration), "CurrencyLayer:BaseUrl is not configured");
+            _apiKey = configuration["FxRates:ApiKey"] ?? throw new ArgumentNullException(nameof(configuration), "FxRates:ApiKey is not configured");
+            _baseUrl = configuration["FxRates:BaseUrl"] ?? throw new ArgumentNullException(nameof(configuration), "FxRates:BaseUrl is not configured");
             _logger = logger;
         }
 
@@ -39,17 +39,11 @@ namespace CurrencyExchangeAPI.Services
                 throw new ArgumentException($"Unsupported currency: {toCurrency}. Supported currencies are: {string.Join(", ", _supportedCurrencies)}");
             }
 
-            // If currencies are the same, return rate of 1
+            // If currencies are the same, throw an error
             if (fromCurrency == toCurrency)
             {
-                _logger.LogInformation($"Same currency pair {fromCurrency}/{toCurrency} - returning rate 1.0");
-                return new ExchangeRate
-                {
-                    BaseCurrency = fromCurrency,
-                    TargetCurrency = toCurrency,
-                    Rate = 1.0m,
-                    Timestamp = DateTime.UtcNow
-                };
+                _logger.LogInformation($"Same currency pair {fromCurrency}/{toCurrency} - throwing error");
+                throw new ArgumentException($"The rate of a currency with itself is always 1. Please select different currencies.");
             }
 
             _logger.LogInformation($"Getting exchange rate for {fromCurrency}/{toCurrency}");

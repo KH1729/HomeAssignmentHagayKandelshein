@@ -15,7 +15,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Configure HttpClient and register CurrencyLayerService
-builder.Services.AddHttpClient<CurrencyLayerService>();
+builder.Services.AddHttpClient();
 
 // Register background service
 builder.Services.AddHostedService<ExchangeRateBackgroundService>();
@@ -30,6 +30,9 @@ builder.Services.AddCors(options =>
                .AllowAnyHeader();
     });
 });
+
+// Add services
+builder.Services.AddScoped<RateFetcherService>();
 
 var app = builder.Build();
 
