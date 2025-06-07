@@ -116,7 +116,3 @@ To modify the application:
 1. Update the supported currencies in `ExchangeRateService.cs`
 2. Modify the update interval in `ExchangeRateBackgroundService.cs`
 3. Add new endpoints in `ExchangeRatesController.cs`
-
-## License
-
-[Your License Here] 
